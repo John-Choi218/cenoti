@@ -140,3 +140,119 @@
   </script>
 </body>
 </html>
+
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>목표 환율 설정</title>
+  <style>
+    /* 전체 페이지 스타일 */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    /* 중앙 정렬 및 박스 스타일 */
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    /* 입력 폼 그룹 스타일 */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    /* 버튼 스타일 */
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      border: none;
+      color: #ffffff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    /* 결과 표시 영역 스타일 */
+    #displayArea {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>목표 환율 설정</h1>
+    
+    <div class="form-group">
+      <label for="buyRate">매수가:</label>
+      <input type="number" id="buyRate" placeholder="매수가 입력">
+    </div>
+    
+    <div class="form-group">
+      <label for="sellRate">매도가:</label>
+      <input type="number" id="sellRate" placeholder="매도가 입력">
+    </div>
+    
+    <button id="saveButton" onclick="handleSave()">저장</button>
+    
+    <div id="displayArea">
+      <p>설정된 매수가: <span id="displayBuy"></span></p>
+      <p>설정된 매도가: <span id="displaySell"></span></p>
+    </div>
+  </div>
+  
+  <script>
+    function handleSave() {
+      var buyRate = document.getElementById("buyRate").value;
+      var sellRate = document.getElementById("sellRate").value;
+      if (buyRate === "" || sellRate === "") {
+        alert("매수가와 매도가를 모두 입력해주세요.");
+        return;
+      }
+      document.getElementById("displayBuy").textContent = buyRate;
+      document.getElementById("displaySell").textContent = sellRate;
+      
+      // React Native로 환율 설정 값을 전달합니다.
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'SAVE_RATES',
+          buyRate: buyRate,
+          sellRate: sellRate
+        }));
+      }
+      alert("환율 설정이 저장되었습니다.");
+    }
+  </script>
+</body>
+</html>
+`;
+
